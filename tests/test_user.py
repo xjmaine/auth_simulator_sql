@@ -9,11 +9,12 @@ class TestUser(TestCase):
     Args:
         TestCase: Base class for all tests
     """
+
     def test_user_creation_with_invalid_email(self):
         """Test user creation"""
         with self.assertRaises(ValueError):
             User(email="Abc@google.com",
-                        name="John Doe")
+                 name="John Doe")
 
     def test_user_creation_with_invalid_password(self):
         """Test user creation"""
@@ -34,7 +35,8 @@ class TestUser(TestCase):
 
     def test_user_creation_with_valid_id(self):
         """Test user creation"""
-        user = User(email="abc@google.com", name="John Doe", id="123e4567-e89b-12d3-a456-426614174000")
+        user = User(email="abc@google.com", name="John Doe",
+                    id="123e4567-e89b-12d3-a456-426614174000")
         self.assertEqual(user.id, "123e4567-e89b-12d3-a456-426614174000")
 
     def test_user_creation_with_valid_password(self):
@@ -52,9 +54,9 @@ class TestUser(TestCase):
     def test_user_with_created_at(self):
         """Test user creation with created_at"""
         user = User(email="abc@google.com", name="John Doe",
-                    created_at="09 June, 2024 : 12:53:44")
+                    created_at="09 June 2024 : 12:53:44")
         self.assertEqual(user.to_dict().get('created_at'),
-                         "09 June, 2024 : 12:53:44")
+                         "09 June 2024 : 12:53:44")
 
     def test_user_with_invalid_created_at(self):
         """Test user creation with invalid created_at"""
@@ -76,6 +78,7 @@ class TestUser(TestCase):
         """Test the get_item method of the User class"""
         user = User(email="abc@google.com", name="John Doe")
         self.assertTrue("password" not in user.get_user().keys())
+
 
 if __name__ == '__main__':
     unittest.main()

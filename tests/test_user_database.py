@@ -10,8 +10,8 @@ class TestUserDatabase(TestCase):
 
     def setUp(self):
         """Setup method for the test class"""
-        self.filename = "/home/walter_obrien/Documents/tutorials/python/oop_project/tests/test_user.csv"
-        self.empty_filename = "/home/walter_obrien/Documents/tutorials/python/oop_project/tests/empty_user.csv"
+        self.filename = "/home/walter_obrien/Documents/tutorials/python/oop_project/tests/data/test_user_db.csv"
+        self.empty_filename = "/home/walter_obrien/Documents/tutorials/python/oop_project/tests/data/test_empty_user_db.csv"
         self.user = User(email="smith@google.com", name="Alex Smith")
         self.user.password = "AleSmi12344"
 
