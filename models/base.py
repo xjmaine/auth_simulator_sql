@@ -41,7 +41,7 @@ class Base:
                     f'{created_at} must be in the format: %d %B %Y : %H:%M:%S, day month year : hour:minute:second. Month must be in full.')
 
         if updated_at is None:
-            self.__updated_at = None
+            self.__updated_at = datetime.now(tz=timezone.utc)
         else:
             try:
                 self.__updated_at = datetime.strptime(

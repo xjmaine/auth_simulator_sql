@@ -92,6 +92,20 @@ class UserDatabase(Database):
         UserDatabase.__users = [row for row in reader]
         self.__close_file(file)
 
+    def check_email_exists(self, email: str) -> bool:
+        """Method to check if email already exists
+
+        Args:
+            email (str): email to check
+
+        Returns:
+            bool: true or false
+        """
+        for user in UserDatabase.__users:
+            if user.get('email') == email:
+                return True
+        return False
+
     def add(self, item: User) -> User:
         """Adds a user object to the database
 
@@ -108,10 +122,13 @@ class UserDatabase(Database):
             raise ValueError("Item cannot be None")
 
         if not isinstance(item, User):
-            raise TypeError("Item must be of type User")
+            raise TypeError("item must be of type User")
 
         if self.get(item.id) is not None:
-            raise ValueError(f"User with id {item.id} already exists")
+            raise ValueError(f"user with id {item.id} already exists")
+
+        if self.check_email_exists(item.email):
+            raise ValueError(f"email {item.email} already exists")
 
         UserDatabase.__users.append(item.to_dict())
         return item
@@ -127,10 +144,10 @@ class UserDatabase(Database):
             User: the updated user object
         """
         if item is None:
-            raise ValueError("Item cannot be None")
+            raise ValueError("item cannot be None")
 
         if not isinstance(item, dict):
-            raise TypeError("Item must be of type dict")
+            raise TypeError("item must be of type dict")
 
         if self.get(id) is None:
             return None

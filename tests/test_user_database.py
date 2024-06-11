@@ -13,7 +13,11 @@ class TestUserDatabase(TestCase):
         self.filename = "/home/walter_obrien/Documents/tutorials/python/oop_project/tests/data/test_user_db.csv"
         self.empty_filename = "/home/walter_obrien/Documents/tutorials/python/oop_project/tests/data/test_empty_user_db.csv"
         self.user = User(email="smith@google.com", name="Alex Smith")
+        self.user2 = User(email="max@gintel.com", name="Maxwell Smith")
+        self.user3 = User(email="dax@google.com", name="Dax Black")
         self.user.password = "AleSmi12344"
+        self.user2.password = "Maxman1234"
+        self.user3.password = "Daxma12344"
 
     def test_userdb_init_without_empty_file(self):
         """Test the UserDatabase constructor"""
@@ -49,7 +53,7 @@ class TestUserDatabase(TestCase):
         """Test add method for UserDatabase
         """
         db = UserDatabase(self.empty_filename)
-        self.assertIsInstance(db.add(self.user), User)
+        self.assertIsInstance(db.add(self.user2), User)
 
     def test_userdb_add_method_with_invalid_data_type(self):
         """Test add method for UserDatabase
@@ -132,7 +136,7 @@ class TestUserDatabase(TestCase):
         """Test save method for UserDatabase
         """
         db = UserDatabase(self.filename)
-        db.add(self.user)
+        db.add(self.user3)
         self.assertIsNone(db.save())
         with open(self.filename, "r") as file:
             self.assertEqual(len(file.readlines()), 4)
