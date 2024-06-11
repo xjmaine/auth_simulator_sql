@@ -13,11 +13,12 @@ class UserDatabase(Database):
     Args:
         Database: Database interface
     """
-    
-    __FIELDNAMES = ['id', 'email', 'name', 'password', 'created_at', 'updated_at']
-    __UPDATABLE_FIELDS = ['email', 'name', 'password']
+
+    __FIELDNAMES = ["id", "email", "name", "password",
+                    "is_logged_in", "created_at", "updated_at"]
+    __UPDATABLE_FIELDS = ["email", "name", "password", "is_logged_in"]
     __users = []
-    
+
     def __init__(self, file_to_connect_to: str) -> None:
         """Constructor for UserDatabase class
 
@@ -31,7 +32,10 @@ class UserDatabase(Database):
             raise ValueError('File cannot be None')
 
         if not file_to_connect_to.endswith('.csv'):
-            raise TypeError('File type must be a json. Eg abc.json')
+            raise TypeError('File type must be a csv. Eg abc.csv')
+
+        if not os.path.exists(file_to_connect_to):
+            raise FileNotFoundError("File does not exist!")
 
         self._file = file_to_connect_to
 
@@ -66,7 +70,7 @@ class UserDatabase(Database):
             file = open(self._file, mode=mode, newline='')
         except FileNotFoundError as e:
             raise FileNotFoundError(f'File {self._file} was not found.')
-        
+
         return file
 
     def __close_file(self, file: io.TextIOWrapper) -> None:
@@ -92,7 +96,7 @@ class UserDatabase(Database):
         UserDatabase.__users = [row for row in reader]
         self.__close_file(file)
 
-    def check_email_exists(self, email: str) -> bool:
+    def get_user_by_email(self, email: str) -> User:
         """Method to check if email already exists
 
         Args:
@@ -103,7 +107,16 @@ class UserDatabase(Database):
         """
         for user in UserDatabase.__users:
             if user.get('email') == email:
-                return True
+                result = User(
+                    email=user.get("email"),
+                    name=user.get("name"),
+                    id=user.get("id"),
+                    created_at=user.get("created_at"),
+                    updated_at=user.get("updated_at")
+                )
+                result.password = user.get("password")
+                result.is_logged_in = user.get("is_logged_in")
+                return result
         return False
 
     def add(self, item: User) -> User:
@@ -127,7 +140,7 @@ class UserDatabase(Database):
         if self.get(item.id) is not None:
             raise ValueError(f"user with id {item.id} already exists")
 
-        if self.check_email_exists(item.email):
+        if self.get_user_by_email(item.email):
             raise ValueError(f"email {item.email} already exists")
 
         UserDatabase.__users.append(item.to_dict())
@@ -160,7 +173,6 @@ class UserDatabase(Database):
         setattr(user_obj, 'updated_at', datetime.now(tz=timezone.utc))
         user_dict.update({'updated_at': user_obj.to_dict().get('updated_at')})
         return user_obj
-        
 
     def all(self) -> Generator[User, None, None]:
         """Method to get all users from the database
@@ -208,13 +220,14 @@ class UserDatabase(Database):
         for user in UserDatabase.__users:
             if user.get('id') == id:
                 result = User(
-                    email=user.get('email'),
-                    name=user.get('name'),
-                    id=user.get('id'),
-                    created_at=user.get('created_at'),
-                    updated_at=user.get('updated_at')
+                    email=user.get("email"),
+                    name=user.get("name"),
+                    id=user.get("id"),
+                    created_at=user.get("created_at"),
+                    updated_at=user.get("updated_at")
                 )
-                result.password = user.get('password')
+                result.password = user.get("password")
+                result.is_logged_in = user.get("is_logged_in")
                 return result, user
         return None
 

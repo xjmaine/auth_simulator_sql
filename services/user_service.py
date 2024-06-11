@@ -78,3 +78,51 @@ class UserService:
             User | None: user object or none
         """
         return db.get(id=id)
+
+    def login_user(self, db: UserDatabase, email: str, password: str) -> User:
+        """Method to log a user in
+
+        Args:
+            db (UserDatabase): database instance
+            email (str): email of the user
+            password (str): password of the user
+
+        Returns:
+            User: the user object
+        """
+        if email is None:
+            raise ValueError("email cannot be None")
+
+        if password is None:
+            raise ValueError("password cannot be None")
+
+        user = db.get_user_by_email(email=email)
+
+        if not user:
+            raise ValueError(f"user with {email} does not exist")
+
+        if user.check_password_is_same(password=password):
+            logged_in_user = db.update(id=user.id, item={"is_logged_in": True})
+            db.save()
+            return logged_in_user
+        raise ValueError("password is incorrect.")
+
+    def logout_user(self, db: UserDatabase, user: User) -> User:
+        """Method to logout user
+
+        Args:
+            db (UserDatabase): database instance
+            user (User): user to be logged out
+        """
+        if not isinstance(user, User):
+            raise TypeError(f"user {user} must be of type User")
+
+        if user is None:
+            raise ValueError("user cannot be None")
+
+        if not user.is_logged_in:
+            raise Exception(f"user {user.id} has already been logged out")
+
+        logged_out_user = db.update(id=user.id, item={"is_logged_in": False})
+        db.save()
+        return logged_out_user

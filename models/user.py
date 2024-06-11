@@ -22,6 +22,7 @@ class User(Base):
 
         self.__name = name
         self.__password = None
+        self.__is_logged_in = False
 
     @property
     def email(self) -> str:
@@ -37,6 +38,11 @@ class User(Base):
     def password(self) -> None:
         """Getter for the password attribute"""
         raise AttributeError("Password is not accessible")
+
+    @property
+    def is_logged_in(self) -> bool:
+        """Getter for is_logged_in attribute"""
+        return self.__is_logged_in
 
     @name.setter
     def name(self, name: str) -> None:
@@ -71,6 +77,26 @@ class User(Base):
         except ValueError as e:
             raise ValueError(e)
 
+    @is_logged_in.setter
+    def is_logged_in(self, value: bool) -> None:
+        """Setter for is_logged_in attribute
+
+        Args:
+            value (bool): The value to set
+        """
+        self.__is_logged_in = value
+
+    def check_password_is_same(self, password: str) -> bool:
+        """Check if the password provided is the same
+
+        Args:
+            password (str): password to check
+
+        Returns:
+            bool: True or False
+        """
+        return self.__password == password
+
     def to_dict(self) -> dict:
         """Method to convert object to a python dictionary
 
@@ -82,6 +108,7 @@ class User(Base):
             "email": self.email,
             "password": self.__password,
             "name": self.name,
+            "is_logged_in": self.is_logged_in,
             "created_at": self.created_at.strftime("%d %B %Y : %H:%M:%S"),
             "updated_at": None if self.updated_at == None else self.updated_at.strftime("%d %B %Y : %H:%M:%S")
         }
@@ -96,6 +123,7 @@ class User(Base):
             "id": self.id,
             "email": self.email,
             "name": self.name,
+            "is_logged_in": self.is_logged_in,
             "created_at": self.created_at.strftime("%d %B %Y : %H:%M:%S"),
             "updated_at": None if self.updated_at == None else self.updated_at.strftime("%d %B %Y : %H:%M:%S")
         }

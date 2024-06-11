@@ -1,0 +1,2 @@
+id,email,name,password,is_logged_in,created_at,updated_at
+65097707-3d7c-4663-a972-0ae6a8c20e5b,john@google.com,Jonathan Doe,John1234,False,11 June 2024 : 10:29:47,11 June 2024 : 10:51:05
