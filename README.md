@@ -22,7 +22,7 @@ To run AuthSimulator, you need to have Python installed on your system. If you d
 Once you have Python installed, you can clone the AuthSimulator project repository to your local machine using the following command:
 
 ```
-git clone https://github.com/waltob123/AuthSimulator.git
+git clone https://github.com/waltob123/auth_simulator.git
 ```
 
 ## Usage
