@@ -41,15 +41,21 @@ class AuthSimulator:
 
     def __get_account_info(self) -> tuple[str, str, str]:
         """Private method to get account info"""
-        email = input("Email: ")
-        name = input("Full name: ")
-        password = getpass(prompt="Password: ")
+        try:
+            email = input("Email: ")
+            name = input("Full name: ")
+            password = getpass(prompt="Password: ")
+        except KeyboardInterrupt:
+            self.__exiting()
         return email, name, password
 
     def __get_login_info(self) -> tuple[str, str]:
         """Private method to get login info"""
-        email = input("Email: ")
-        password = getpass(prompt="Password: ")
+        try:
+            email = input("Email: ")
+            password = getpass(prompt="Password: ")
+        except KeyboardInterrupt:
+            self.__exiting()
         return email, password
 
     def __exiting(self) -> None:
