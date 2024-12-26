@@ -1,8 +1,9 @@
 from repository.user_db import UserDatabase
 from models.user import User
+from services import hash_gen
 
 class UserService:
-    """User servic class"""
+    """User service class"""
 
     def create_user(self, db: UserDatabase, email: str, name: str, password: str) -> User:
         """Method to create a new user
@@ -26,7 +27,7 @@ class UserService:
             raise ValueError("name cannot be None")
 
         new_user = User(email=email, name=name)
-        new_user.password = password
+        new_user.password = hash_gen.password_hash(password)
         saved_user = db.add(item=new_user)
         db.save()
         return saved_user

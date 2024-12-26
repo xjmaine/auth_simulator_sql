@@ -1,3 +1,4 @@
+from services import hash_gen
 from utils.validators import email_validator, password_validator
 from .base import Base
 
@@ -95,7 +96,9 @@ class User(Base):
         Returns:
             bool: True or False
         """
-        return self.__password == password
+        # return self.__password == password
+        return hash_gen.verify_password(password, self.__password)
+    
 
     def to_dict(self) -> dict:
         """Method to convert object to a python dictionary

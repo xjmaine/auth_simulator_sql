@@ -1,2 +1,4 @@
 id,email,name,password,is_logged_in,created_at,updated_at
 65097707-3d7c-4663-a972-0ae6a8c20e5b,john@google.com,Jonathan Doe,John1234,False,11 June 2024 : 10:29:47,11 June 2024 : 10:51:05
+c74a85f0-e02b-4bc3-b050-bf0716488c23,em@em.com,demo,Password123,False,26 December 2024 : 01:40:08,26 December 2024 : 01:41:00
+992e9916-e39d-4f72-a632-6a0aac9c0efa,fre@fre.com,Freddie,$2b$12$ksKbyj3F.B333TJF/yrz/.J.ZH1r0kTq9PeKgH/QfpDYLr21JQy9e,True,26 December 2024 : 10:58:06,26 December 2024 : 12:14:16
